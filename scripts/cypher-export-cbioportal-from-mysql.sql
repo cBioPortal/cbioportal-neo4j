@@ -97,14 +97,7 @@ PREPARE prepared_export_statement from @export_statement;
 EXECUTE prepared_export_statement;
 DEALLOCATE PREPARE prepared_export_statement;
 
--- dump sample - cna homdel info (if conditionals were working on the cypher side of the fence, we could break up the cna into bins data using samples-genetic-alterations.csv)
--- SET @outfile = CONCAT(@outfile_dir, 'samples--cna-homdel-genes.csv');
--- SET @alteration = -2;
--- SET @export_statement = CONCAT("select * from ((select 'GeneticProfileID','InternalSampleID','EntrezGeneID','Alteration' from genetic_profile_data_expanded limit 1) union all (select genetic_profile_data_expanded.genetic_profile_id, internal_sample_id, entrez_gene_id, alteration from genetic_profile_data_expanded inner join genetic_profile on genetic_profile_data_expanded.genetic_profile_id = genetic_profile.genetic_profile_id inner join gene on genetic_profile_data_expanded.genetic_entity_id = gene.genetic_entity_id where genetic_alteration_type = 'COPY_NUMBER_ALTERATION' and alteration = ", @alteration, ")) as a into outfile '", @outfile, "' fields terminated by ',' lines terminated by '\n'");
--- PREPARE prepared_export_statement from @export_statement;
--- EXECUTE prepared_export_statement;
--- DEALLOCATE PREPARE prepared_export_statement;
--- dump sample-cna*-genes.csv files (if conditionals were working on the cypher side of the fence, we could break up the cna into bins data using samples-genetic-alterations.csv)
+-- dump sample-cna*-genes.csv files (the foreach trick to makeup for conditionals takes way too long in cypher so we bin the cna data here to create specific relationships in neo4j)
 DROP PROCEDURE IF EXISTS `create_cna_data_files_by_discrete_value`;
 DELIMITER $$
 CREATE PROCEDURE `create_cna_data_files_by_discrete_value`(outfiles TEXT, alterations TEXT)
