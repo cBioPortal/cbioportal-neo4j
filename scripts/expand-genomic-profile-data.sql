@@ -1,3 +1,7 @@
+--------------------------------------------------------------------------------
+--- routines to expand data in genetic_profile_samples - genetic
+--------------------------------------------------------------------------------
+
 --
 -- create the table to contain the expanded alteration data
 --
@@ -60,7 +64,7 @@ END $$
 DELIMITER ;
 
 --
--- the driver procedure
+-- process all data in a  single genetic_profile
 -- 
 DROP PROCEDURE IF EXISTS `expand_genetic_profile_data`;
 DELIMITER $$
@@ -98,6 +102,9 @@ BEGIN
 END $$
 DELIMITER ;
 
+--
+-- the driver procedure
+-- 
 DROP PROCEDURE IF EXISTS `expand_all_genetic_profiles`;
 DELIMITER $$
 CREATE PROCEDURE `expand_all_genetic_profiles`(expanded_table_name TEXT)
@@ -121,12 +128,12 @@ BEGIN
 END $$
 DELIMITER ;
 
--- CALL expand_all_genetic_profiles('genetic_profile_data_expanded');
+CALL expand_all_genetic_profiles('genetic_profile_data_expanded');
 
--- clean up
--- DROP TABLE IF EXISTS `genetic_profile_data_expanded`;
--- DROP PROCEDURE IF EXISTS `length_of_delimited_list`;
--- DROP PROCEDURE IF EXISTS `insert_genetic_profile_data_expanded`;
--- DROP PROCEDURE IF EXISTS `process_genetic_profile_samples_and_alteration_data`;
--- DROP PROCEDURE IF EXISTS `expand_genetic_profile_data`;
--- DROP PROCEDURE IF EXISTS `expand_all_genetic_profiles`;
+-- cleanup temp table/procedures
+DROP TABLE IF EXISTS `genetic_profile_data_expanded`;
+DROP PROCEDURE IF EXISTS `length_of_delimited_list`;
+DROP PROCEDURE IF EXISTS `insert_genetic_profile_data_expanded`;
+DROP PROCEDURE IF EXISTS `process_genetic_profile_samples_and_alteration_data`;
+DROP PROCEDURE IF EXISTS `expand_genetic_profile_data`;
+DROP PROCEDURE IF EXISTS `expand_all_genetic_profiles`;
