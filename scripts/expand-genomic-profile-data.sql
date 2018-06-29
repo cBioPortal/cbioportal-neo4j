@@ -123,6 +123,7 @@ BEGIN
            CALL expand_genetic_profile_data(@genetic_profile_id, expanded_table_name);
        END IF;
        DEALLOCATE PREPARE prepared_genetic_profile_statement;
+       SET loop_counter = loop_counter + 1;
     END WHILE;
     DEALLOCATE PREPARE prepared_num_genetic_profiles;
 END $$
